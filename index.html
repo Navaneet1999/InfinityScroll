@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Scroll</title>
+</head>
+<style>
+    #box{
+        margin: auto;
+        width: 200px;
+        height: 300px;
+        border: 10px solid maroon;
+        overflow: scroll;
+        text-align: center;
+        font-weight: bolder;
+        border-radius: 10px;
+    }
+    #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display:none;
+        background: #eee;
+    }
+
+    #movieList{
+        margin-bottom: 20px;
+    }
+</style>
+<body>
+    <div id="box">
+        <div id="movieList">
+            <p>Masai Student 1</p>
+            <p>Masai Student 2</p>
+            <p>Masai Student 3</p>
+            <p>Masai Student 4</p>
+            <p>Masai Student 5</p>
+            <p>Masai Student 6</p>
+            <p>Masai Student 7</p>
+            <p>Masai Student 8</p>
+            <p>Masai Student 9</p>
+            <p>Masai Student 10</p>
+        </div>
+        <div id="footer">Loading more Masai Students</div>
+    </div>
+    
+</body>
+</html>
+<script>
+    const box = document.getElementById('box');
+box.onscroll = function(ev) {
+    // if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+      
+        addNewItem();
+    // }
+};
+
+
+function addNewItem(){
+   var itemCount = document.getElementById("movieList").childElementCount;
+const itemLimit = 10; 
+var nextTopItems = getNextItemSimulator(itemCount); 
+nextTopItems.forEach(function(item) {
+
+  document.getElementById("movieList").innerHTML += "<p>"+item+"</p>"; 
+     document.getElementById("footer").style.display = "block";
+});
+setTimeout(function(){
+     
+     document.getElementById("footer").style.display = "none";}, 500);
+}
+
+function getNextItemSimulator(currentItem){ 
+  
+const dummyItemCount = 51000;
+var dummyItems = []; 
+var nextTopDummyItems = [];
+for(i = 1; i <= dummyItemCount; i++){
+
+    dummyItems.push("Masai Student " + i);
+}
+var countTen = 2;
+var nextItem = currentItem + 1;
+for(i = nextItem; i <= dummyItems.length; i++){
+    
+    nextTopDummyItems.push(dummyItems[i - 1]);
+    countTen--;
+    if(countTen == 0)break;
+}
+   return nextTopDummyItems;
+}
+</script>
